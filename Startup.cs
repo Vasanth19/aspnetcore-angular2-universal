@@ -44,11 +44,22 @@ namespace AspCoreServer
     public IConfigurationRoot Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services, IHostingEnvironment env,)
     {
       // Add framework services.
       services.AddMvc();
-      services.AddNodeServices();
+      if (env.IsDevelopment())
+      {
+        services.AddNodeServices(options =>
+        {
+          options.LaunchWithDebugging = true;
+          options.DebuggingPort = 5858;
+
+        });
+      }
+      else {
+        services.AddNodeServices();
+      }
 
       var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "spa.db" };
       var connectionString = connectionStringBuilder.ToString();
