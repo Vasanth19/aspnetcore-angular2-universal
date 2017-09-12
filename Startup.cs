@@ -14,11 +14,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.NodeServices;
 using AspCoreServer.Data;
 using Swashbuckle.AspNetCore.Swagger;
+using AspCoreServer.Services;
+using AspCoreServer.Models;
 
 namespace AspCoreServer
 {
   public class Startup
   {
+    private IHostingEnvironment CurrentEnvironment { get; set; }
 
     public static void Main(string[] args)
     {
@@ -33,6 +36,7 @@ namespace AspCoreServer
     }
     public Startup(IHostingEnvironment env)
     {
+      CurrentEnvironment = env;
       var builder = new ConfigurationBuilder()
           .SetBasePath(env.ContentRootPath)
           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -44,22 +48,29 @@ namespace AspCoreServer
     public IConfigurationRoot Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
-    public void ConfigureServices(IServiceCollection services, IHostingEnvironment env,)
+    public void ConfigureServices(IServiceCollection services)
     {
       // Add framework services.
       services.AddMvc();
-      if (env.IsDevelopment())
-      {
-        services.AddNodeServices(options =>
-        {
-          options.LaunchWithDebugging = true;
-          options.DebuggingPort = 5858;
 
-        });
-      }
-      else {
+      services.AddOptions();
+
+      services.Configure<Models.AzureSettings>(Configuration.GetSection("DocumentDb"));
+      services.AddSingleton<DocumentDBRepository>(x => new DocumentDBRepository(new DocumentDbSettings(Configuration.GetSection("DocumentDb"))));
+
+
+      // if (CurrentEnvironment.IsDevelopment())
+      // {
+      //   services.AddNodeServices(options =>
+      //   {
+      //     options.LaunchWithDebugging = true;
+      //     options.DebuggingPort = 5858;
+
+      //   });
+      // }
+      // else {
         services.AddNodeServices();
-      }
+//      }
 
       var connectionStringBuilder = new Microsoft.Data.Sqlite.SqliteConnectionStringBuilder { DataSource = "spa.db" };
       var connectionString = connectionStringBuilder.ToString();

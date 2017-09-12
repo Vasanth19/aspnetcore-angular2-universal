@@ -9,6 +9,7 @@ import * as fs from 'fs';
 
 import { REQUEST } from '../app/shared/constants/request';
 import { ORIGIN_URL } from '../app/shared/constants/baseurl.constants';
+import { SERVER_DATA } from '../app/shared/constants/server.data';
 
 // import { FileLoader } from './file-loader';
 
@@ -86,6 +87,10 @@ export function ngAspnetCoreEngine(
           }, {
             provide: REQUEST,
             useValue: options.request.data.request
+          }
+          , {
+            provide: SERVER_DATA,
+            useValue: options.request.data.thisCameFromDotNET
           }
         ]
       );

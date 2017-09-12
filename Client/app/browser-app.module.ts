@@ -9,6 +9,8 @@ import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { REQUEST } from './shared/constants/request';
+import { SERVER_DATA } from './shared/constants/server.data';
+
 import { BrowserTransferStateModule } from '../modules/transfer-state/browser-transfer-state.module';
 
 export function createConfig(): SignalRConfiguration {
@@ -29,6 +31,11 @@ export function getOriginUrl() {
 export function getRequest() {
   // the Request object only lives on the server
   return { cookie: document.cookie };
+}
+
+export function getServerData() {
+  // the Request object only lives on the server
+  return window['TRANSFER_CACHE'].fromDotnet; 
 }
 
 @NgModule({
@@ -55,6 +62,11 @@ export function getRequest() {
             // The server provides these in main.server
             provide: REQUEST,
             useFactory: (getRequest)
+        },
+         {
+            // The server provides these in main.server
+            provide: SERVER_DATA,
+            useFactory: (getServerData)
         }
     ]
 })

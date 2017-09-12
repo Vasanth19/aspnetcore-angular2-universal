@@ -4,7 +4,7 @@ import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { HttpModule, Http } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
-import { Ng2BootstrapModule } from 'ng2-bootstrap';
+import { Ng2BootstrapModule, AlertModule,CarouselModule, ProgressbarModule } from 'ngx-bootstrap';
 
 // i18n support
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -14,6 +14,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './containers/home/home.component';
 import { UsersComponent } from './containers/users/users.component';
+import { PricelistComponent } from './containers/pricelist/pricelist.component';
 import { UserDetailComponent } from './components/user-detail/user-detail.component';
 import { CounterComponent } from './containers/counter/counter.component';
 import { ChatComponent } from './containers/chat/chat.component';
@@ -22,6 +23,8 @@ import { NgxBootstrapComponent } from './containers/ngx-bootstrap-demo/ngx-boots
 
 import { LinkService } from './shared/link.service';
 import { UserService } from './shared/user.service';
+import { ItemService } from './shared/item.service';
+
 import { ConnectionResolver } from './shared/route.resolver';
 import { ORIGIN_URL } from './shared/constants/baseurl.constants';
 import { TransferHttpModule } from '../modules/transfer-http/transfer-http.module';
@@ -43,6 +46,7 @@ export function createTranslateLoader(http: Http, baseHref) {
         UsersComponent,
         UserDetailComponent,
         HomeComponent,
+        PricelistComponent,
         ChatComponent,
         NotFoundComponent,
         NgxBootstrapComponent
@@ -52,6 +56,9 @@ export function createTranslateLoader(http: Http, baseHref) {
         HttpModule,
         FormsModule,
         Ng2BootstrapModule.forRoot(), // You could also split this up if you don't want the Entire Module imported
+        AlertModule.forRoot(),
+        CarouselModule.forRoot(),
+        ProgressbarModule.forRoot(),
 
         TransferHttpModule, // Our Http TransferData method
 
@@ -110,6 +117,17 @@ export function createTranslateLoader(http: Http, baseHref) {
                     ]
                 }
             },
+              {
+                path: ':productType/pricelist/:listType', component: PricelistComponent,
+                data: {
+                    title: 'Pricelist',
+                    meta: [{ name: 'description', content: 'This is User REST API example page Description!' }],
+                    links: [
+                        { rel: 'canonical', href: 'http://blogs.example.com/chat/something' },
+                        { rel: 'alternate', hreflang: 'es', href: 'http://es.example.com/users' }
+                    ]
+                }
+            },
             {
                 path: 'chat', component: ChatComponent,
                 // Wait until the resolve is finished before loading the Route
@@ -153,6 +171,7 @@ export function createTranslateLoader(http: Http, baseHref) {
     providers: [
         LinkService,
         UserService,
+        ItemService,
         ConnectionResolver,
         TranslateModule
     ]

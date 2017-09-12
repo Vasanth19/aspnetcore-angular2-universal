@@ -8,11 +8,12 @@ import { LinkService } from './shared/link.service';
 // i18n support
 import { TranslateService } from '@ngx-translate/core';
 import { REQUEST } from './shared/constants/request';
+import { SERVER_DATA } from './shared/constants/server.data';
 
 @Component({
     selector: 'app',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
+    //styleUrls: ['./app.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -31,7 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private meta: Meta,
         private linkService: LinkService,
         public translate: TranslateService,
-        @Inject(REQUEST) private request
+        @Inject(REQUEST) private request,
+        @Inject(SERVER_DATA) private serverData 
     ) {
         // this language will be used as a fallback when a translation isn't found in the current language
         translate.setDefaultLang('en');
@@ -39,9 +41,10 @@ export class AppComponent implements OnInit, OnDestroy {
         // the lang to use, if the lang isn't available, it will use the current loader to get them
         translate.use('en');
 
-        console.log(`What's our REQUEST Object look like?`);
-        console.log(`The Request object only really exists on the Server, but on the Browser we can at least see Cookies`);
-        console.log(this.request);
+        // console.log(`What's our REQUEST Object look like?`);
+        // console.log(`The Request object only really exists on the Server, but on the Browser we can at least see Cookies`);
+        // console.log(this.request);
+        // console.log("server data = ",this.serverData);
     }
 
     ngOnInit() {

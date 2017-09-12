@@ -5,6 +5,7 @@
 } from '@angular/core';
 import { IUser } from '../../models/User';
 import { UserService } from '../../shared/user.service';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
     selector: 'users',
@@ -31,14 +32,16 @@ export class UsersComponent implements OnInit {
     selectedUser: IUser;
 
     // Use "constructor"s only for dependency injection
-    constructor(private userService: UserService) { }
+    constructor(private userService: UserService, route: ActivatedRoute) {
+        route.params.subscribe( params => console.log(params));
+     }
 
     // Here you want to handle anything with @Input()'s @Output()'s
     // Data retrieval / etc - this is when the Component is "ready" and wired up
     ngOnInit() {
         this.userService.getUsers().subscribe(result => {
-            console.log('Get user result: ', result);
-            console.log('TransferHttp [GET] /api/users/allresult', result);
+            // console.log('Get user result: ', result);
+            // console.log('TransferHttp [GET] /api/users/allresult', result);
             this.users = result as IUser[];
         });
     }

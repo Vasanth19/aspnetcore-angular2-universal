@@ -7,7 +7,12 @@ import { Component } from '@angular/core';
     <blockquote>
       Fun fact: This was lazy-loaded :)
       Check your Network tab!
-    </blockquote>
+     </blockquote>
+    <p>
+  <a [routerLink]="['tracks']">Tracks</a> |
+  <a [routerLink]="['albums']">Albums</a>
+</p>
+<router-outlet></router-outlet>
   `
 })
 export class LazyComponent { }
