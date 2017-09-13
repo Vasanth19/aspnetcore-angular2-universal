@@ -86,7 +86,7 @@
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/0.8.2/css/flag-icon.min.css" />
-
+    <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
     @Html.Raw(ViewData["Styles"])
 
 </head>
@@ -150,6 +150,7 @@
 
   <!-- Here we're passing down any data to be used by grabbed and parsed by Angular -->
   @Html.Raw(ViewData["TransferData"])
+    @Html.Raw(ViewData["Scripts"])
 
   @RenderSection("scripts", required: false)
 </body>
